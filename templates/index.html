@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flask Message Board</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Flask Message Board</h1>
+
+    <form action="{{ url_for('add_message') }}" method="POST">
+        <input type="text" name="message" placeholder="Enter your message" required>
+        <button type="submit">Add Message</button>
+    </form>
+
+    <h2>Messages:</h2>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message">{{ message }}</div>
+        {% endfor %}
+    {% else %}
+        <p>No messages yet.</p>
+    {% endif %}
+</body>
+</html>
