@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask.wrappers import RedirectResponse, JsonResponse
 import wikipedia
 from diskcache import Cache
 
@@ -13,11 +14,11 @@ if 'messages' not in message_store:
     message_store['messages'] = []
 
 @app.route('/')
-def home():
+def home() -> str:
     return render_template('index.html', messages=message_store['messages'])
 
 @app.route('/add_message', methods=['POST'])
-def add_message():
+def add_message() -> RedirectResponse:
     message = request.form.get('message')
     if message:
         messages = message_store['messages']
@@ -26,7 +27,7 @@ def add_message():
     return redirect(url_for('home'))
 
 @app.route('/wikipedia', methods=['GET'])
-def get_wikipedia():
+def get_wikipedia() -> JsonResponse:
     title = request.args.get('title')
     if not title:
         return jsonify({'error': 'Title parameter is required'}), 400
